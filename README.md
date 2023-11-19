@@ -1,6 +1,6 @@
 # TG.no - Backend
 
-**NB** Public repo, no secrets!
+**NB** Public repo. So avoid pushing secrets...
 
 CMS and REST API built using [Wagtail](https://wagtail.org/). It runs on [http://localhost:8000](http://localhost:8000) by default. With admin pages exposed on [http://localhost:8000/admin](http://localhost:8000/admin)
 
@@ -55,3 +55,7 @@ python manage.py createsuperuser
 ```sh
 python manage.py runserver
 ```
+
+## Contribute?
+
+This repo is developed and maintained by the [Systemstøtte crew](https://wannabe.gathering.org/tg24/crew#crew-82) at [The Gathering](https://www.gathering.org). Once we get further along PR will be accepted, for now either apply to join our crew or reach out to us via issues before spending any time on development.
