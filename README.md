@@ -41,7 +41,9 @@ We are using Docker via docker-compose for local development. To get started
 
 Once running you should start an interactive shell in `web` container in order to have full access to any Django and Wagtail commands. This can be done via `docker-compose exec web bash`, or via our shortcut `make`/`make shell`
 
-We recommend using the for most commands as there is no value in duplicating all simple commands in local make files, and it makes i a lot easier to tinker and learn how things work. To list all commands available try `python manage.py` (while in the interactive shell)
+We recommend this approach since it makes it a lot easier to tinker and learn how things work. To list all commands available try `python manage.py` (while in the interactive shell)
+
+And no, we will not try to replicate every possible command in our Makefile.
 
 ### 2. Make sure you are ready to commit code
 
