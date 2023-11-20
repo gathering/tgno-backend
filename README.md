@@ -22,7 +22,7 @@ Example urls
 **Prioritized tasks:**
 
 - [x] Get local `docker-compose` based development setup functional and documented
-- [.] Get local editor tooling functional and documented
+- [x] Get local editor tooling functional and documented
 - [ ] Get staging environment up and running using terraform (in another repo for now)
 - [ ] Limit sub-page types available on `aktuelt` app
 - [ ] Start iterating on `aktuelt` app to get a minimal realistic and functional article setup in place  (look at existing page for inspiration)
@@ -42,6 +42,13 @@ We are using Docker via docker-compose for local development. To get started
 Once running you should start an interactive shell in `web` container in order to have full access to any Django and Wagtail commands. This can be done via `docker-compose exec web bash`, or via our shortcut `make`/`make shell`
 
 We recommend using the for most commands as there is no value in duplicating all simple commands in local make files, and it makes i a lot easier to tinker and learn how things work. To list all commands available try `python manage.py` (while in the interactive shell)
+
+### 2. Make sure you are ready to commit code
+
+We use pre-commit for making sure all code conforms to the same formatting. This happens automatically on commit after this first time setup.
+
+1. Install [Pre-commit](https://pre-commit.com/#install) (Usually `pip install pre-commit` or `brew install pre-commit`)
+2. Activate it via `pre-commit install`
 
 ## Contribute?
 
