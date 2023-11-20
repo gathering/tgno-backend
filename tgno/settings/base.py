@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from os import getenv as env
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -90,8 +90,15 @@ WSGI_APPLICATION = "tgno.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB", "tgno"),
+        "USER": env("POSTGRES_USER", "tgno"),
+        # Using clearly fake and non-functional credentials as defaults
+        # these are required during Dockerfile run due to static file
+        # construction
+        "PASSWORD": env("POSTGRES_PASSWORD", "invalid and very insecure password"),
+        "HOST": env("POSTGRES_HOST", "a-host-that-does-not-exist"),
+        "PORT": env("POSTGRES_PORT", "1234"),
     }
 }
 

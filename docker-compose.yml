@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./scripts/dbinit/:/docker-entrypoint-initdb.d/
+    env_file: .env
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Run migrations and startup in watch-mode (Dockerfile is non-watch by default)
+    command: >
+        bash -c "python manage.py migrate --noinput
+        && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+    ports:
+      - 8000:8000
+    env_file: .env
+
+volumes:
+  postgres_data:
