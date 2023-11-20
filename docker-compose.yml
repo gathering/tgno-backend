@@ -3,8 +3,6 @@ version: '3'
 services:
   db:
     image: postgres:16-alpine
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
       - ./scripts/dbinit/:/docker-entrypoint-initdb.d/
