@@ -90,7 +90,7 @@ WSGI_APPLICATION = "tgno.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": env("DATABASE_ENGINE", "django.db.backends.postgresql"),
         "NAME": env("POSTGRES_DB", "tgno"),
         "USER": env("POSTGRES_USER", "tgno"),
         # Using clearly fake and non-functional credentials as defaults
