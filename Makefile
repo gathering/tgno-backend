@@ -17,6 +17,9 @@ migrate:
 createsuperuser:
 	docker-compose exec web python manage.py createsuperuser
 
+test:
+	docker-compose exec web python manage.py test
+
 # Run tests with sqllite instead of postgres, mainly for CI purposes
 ci-test:
 	DATABASE_ENGINE=django.db.backends.sqlite3 python manage.py collectstatic
