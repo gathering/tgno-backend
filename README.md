@@ -24,7 +24,7 @@ Example urls
 - [x] Get local `docker-compose` based development setup functional and documented
 - [x] Get local editor tooling functional and documented
 - [ ] Get staging environment up and running using terraform (in another repo for now)
-- [ ] Limit sub-page types available on `aktuelt` app
+- [x] Limit sub-page types available on `aktuelt` app
 - [ ] Start iterating on `aktuelt` app to get a minimal realistic and functional article setup in place  (look at existing page for inspiration)
 - [ ] Iterate on README and other docs to include any relevant commands and setup steps
 
