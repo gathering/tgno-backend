@@ -3,11 +3,13 @@ version: '3'
 services:
   db:
     image: postgres:16-alpine
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
       - ./scripts/dbinit/:/docker-entrypoint-initdb.d/
+    ports:
+      # Allows db access from local machine, feel free
+      # to remove locally if it causes conflicts
+      - 5432:5432
     env_file: .env
 
   web:
