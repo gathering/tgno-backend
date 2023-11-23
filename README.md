@@ -52,6 +52,12 @@ We use pre-commit for making sure all code conforms to the same formatting. This
 1. Install [Pre-commit](https://pre-commit.com/#install) (Usually `pip install pre-commit` or `brew install pre-commit`)
 2. Activate it via `pre-commit install`
 
+## Tests
+
+Use `python manage.py test` in container, or `make test` locally to run test suite. We generally try to rely on Wagtail and Djange framework as much as possible, but feel free to test custom behaviour/code and add sanity checks.
+
+Having test coverage will be helpful when debugging issues or figuring out how existing code was intended to behave (aka. answering the age old question of, is current behaviour a bug or just an unknown feature?).
+
 ## Contribute?
 
 This repo is developed and maintained by the [Systemstøtte crew](https://wannabe.gathering.org/tg24/crew#crew-82) at [The Gathering](https://www.gathering.org). Once we get further along PR will be accepted, for now either apply to join our crew or reach out to us via issues before spending any time on development.

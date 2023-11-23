@@ -4,3 +4,4 @@ __pycache__
 # Dev assets and state
 db.sqlite3
 media
+static
