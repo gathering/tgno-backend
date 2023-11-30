@@ -32,6 +32,8 @@ class NewsTagIndexPage(Page):
 
 
 class NewsIndexPage(Page):
+    subpage_types = ["aktuelt.NewsPage"]
+
     intro = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [FieldPanel("intro")]
@@ -44,6 +46,9 @@ class NewsIndexPage(Page):
 
 
 class NewsPage(Page):
+    parent_page_types = ["aktuelt.NewsIndexPage"]
+    subpage_types = []
+
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)

@@ -64,3 +64,11 @@ class AktueltSanityChecks(WagtailPageTestCase):
         newsPage = NewsPage.objects.get(title="Secret news page")
         response = self.client.get(newsPage.get_url() or "/invalid-url/")
         self.assertEqual(response.status_code, 404)
+
+
+class AktueltNewsPageStructure(WagtailPageTestCase):
+    def test_news_page_can_only_be_created_under_news_index_page(self):
+        self.assertAllowedParentPageTypes(NewsPage, {NewsIndexPage})
+
+    def test_news_page_index_can_only_hace_news_pages_as_children(self):
+        self.assertAllowedSubpageTypes(NewsIndexPage, {NewsPage})
