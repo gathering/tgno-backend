@@ -81,13 +81,12 @@ class NewsPage(Page):
     ]
 
     def schedule(self):
+        updated_at = self.custom_updated_at or self.last_published_at
+        published_at = self.custom_published_at or self.first_published_at
+
         return {
-            "updated_at": self.custom_updated_at.isoformat()
-            if self.custom_updated_at
-            else self.last_published_at.isoformat(),
-            "published_at": self.custom_published_at.isoformat()
-            if self.custom_published_at
-            else self.first_published_at.isoformat(),
+            "updated_at": updated_at.isoformat() if updated_at else None,
+            "published_at": published_at.isoformat() if published_at else None,
             "unpublished_at": self.expire_at.isoformat() if self.expire_at else None,
         }
 

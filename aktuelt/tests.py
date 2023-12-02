@@ -16,7 +16,6 @@ class AktueltSanityChecks(WagtailPageTestCase):
             title="Test news page",
             intro="Test intro",
             body="Test body",
-            date="2020-01-01",
         )
         newsIndexPage.add_child(instance=newsPage)
 
@@ -24,7 +23,6 @@ class AktueltSanityChecks(WagtailPageTestCase):
             title="Secret news page",
             intro="This page isnt part of page tree",
             body="Test body",
-            date="2020-01-01",
             # Fake values, probably not possible using Wagtail page model.
             # A nice way of demoing behaviour and difference between API
             # endpoints and the "default" html endpoints, via tests below
@@ -65,6 +63,11 @@ class AktueltSanityChecks(WagtailPageTestCase):
         response = self.client.get(newsPage.get_url() or "/invalid-url/")
         self.assertEqual(response.status_code, 404)
 
+    def test_news_page_api_details_contains_schedule(self):
+        newsPage = NewsPage.objects.get(title="Test news page")
+        response = self.client.get(f"/api/v2/news/{newsPage.pk}/")
+        self.assertIsNotNone(response.json().get("meta").get("schedule"))
+
 
 class AktueltNewsPageStructure(WagtailPageTestCase):
     def test_news_page_can_only_be_created_under_news_index_page(self):
@@ -72,3 +75,56 @@ class AktueltNewsPageStructure(WagtailPageTestCase):
 
     def test_news_page_index_can_only_hace_news_pages_as_children(self):
         self.assertAllowedSubpageTypes(NewsIndexPage, {NewsPage})
+
+
+class NewsPageBehaviour(WagtailPageTestCase):
+    def setUp(self):
+        self.newsPage = NewsPage(
+            title="Test news page",
+            intro="Test intro",
+            body="Test body",
+            path="/",
+            depth=1,
+        )
+        self.newsPage.save()
+
+    def test_schedule_is_empty_by_default(self):
+        self.assertEqual(
+            self.newsPage.schedule(),
+            {
+                "updated_at": None,
+                "published_at": None,
+                "unpublished_at": None,
+            },
+        )
+
+    def test_schedule_reflects_publish_history(self):
+        self.newsPage.save_revision().publish()
+        self.newsPage.save_revision().publish()
+
+        self.newsPage.refresh_from_db()
+        self.assertEqual(
+            self.newsPage.schedule(),
+            {
+                "updated_at": self.newsPage.last_published_at.isoformat(),
+                "published_at": self.newsPage.first_published_at.isoformat(),
+                "unpublished_at": None,
+            },
+        )
+
+    def test_schedule_reflects_manual_overrides(self):
+        test_date = "2021-01-01T00:00:00+00:00"
+
+        self.newsPage.custom_published_at = test_date
+        self.newsPage.custom_updated_at = test_date
+        self.newsPage.save_revision().publish()
+
+        self.newsPage.refresh_from_db()
+        self.assertEqual(
+            self.newsPage.schedule(),
+            {
+                "updated_at": test_date,
+                "published_at": test_date,
+                "unpublished_at": None,
+            },
+        )
