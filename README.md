@@ -52,6 +52,14 @@ We use pre-commit for making sure all code conforms to the same formatting. This
 1. Install [Pre-commit](https://pre-commit.com/#install) (Usually `pip install pre-commit` or `brew install pre-commit`)
 2. Activate it via `pre-commit install`
 
+## Production setup
+
+Site should follow expected Wagtail and Django patterns if nothing else is mentioned.
+
+### Things to keep in mind
+
+- We allow for scheduled content, make sure to run `publish_scheduled` command every x minutes
+
 ## Tests
 
 Use `python manage.py test` in container, or `make test` locally to run test suite. We generally try to rely on Wagtail and Djange framework as much as possible, but feel free to test custom behaviour/code and add sanity checks.
