@@ -54,7 +54,8 @@ class NewsPage(Page):
     parent_page_types = ["aktuelt.NewsIndexPage"]
     subpage_types = []
 
-    date = models.DateField("Post date")
+    custom_published_at = models.DateTimeField("Publish override", blank=True, null=True)
+    custom_updated_at = models.DateTimeField("Update override", blank=True, null=True)
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
@@ -79,10 +80,27 @@ class NewsPage(Page):
         index.SearchField("body"),
     ]
 
+    def schedule(self):
+        return {
+            "updated_at": self.custom_updated_at.isoformat()
+            if self.custom_updated_at
+            else self.last_published_at.isoformat(),
+            "published_at": self.custom_published_at.isoformat()
+            if self.custom_published_at
+            else self.first_published_at.isoformat(),
+            "unpublished_at": self.expire_at.isoformat() if self.expire_at else None,
+        }
+
+    # This is the equivalent of extending `meta_fields` on NewsPagesApiViewSet.
+    # Doing it here since I want to reference potentially non-existing/local
+    # fields, even if it should ideally behave consistenly between content types
+    api_meta_fields = ["schedule"]
+
+    api_filter_fields = ["first_published_at"]
+
     api_fields = [
         APIField("intro"),
         APIField("body"),
-        APIField("date"),
         # TODO: Replace with prettier (main model based?) serializer pattern?
         APIField("contributors", serializer=ContributorsSerializer(source="news_page_contributors")),
         APIField("tags", serializer=NewsPageTagsSerializer()),
@@ -96,7 +114,8 @@ class NewsPage(Page):
         FieldPanel("body"),
         MultiFieldPanel(
             [
-                FieldPanel("date"),
+                FieldPanel("custom_published_at"),
+                FieldPanel("custom_updated_at"),
                 FieldPanel("tags"),
                 InlinePanel("news_page_contributors", label="Contributors"),
             ],
