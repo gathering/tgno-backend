@@ -2,17 +2,18 @@ from rest_framework.fields import Field
 from wagtail.images.api.fields import ImageRenditionField
 
 
-class AuthorsSerializer(Field):
-    def to_representation(self, value):
+class ContributorsSerializer(Field):
+    def to_representation(self, news_page_contributors):
         return [
             {
-                "id": value.id,
-                "name": value.name,
-                "image": ImageRenditionField("fill-100x100").to_representation(value.author_image)
-                if value.author_image
+                "id": entry.contributor.id,
+                "name": entry.contributor.name,
+                "contribution_type": entry.contribution_type or entry.contributor.default_contribution_type,
+                "image": ImageRenditionField("fill-100x100").to_representation(entry.contributor.image)
+                if entry.contributor.image
                 else None,
             }
-            for value in value.all()
+            for entry in news_page_contributors.all()
         ]
 
 
