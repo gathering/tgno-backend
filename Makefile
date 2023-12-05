@@ -23,6 +23,7 @@ createsuperuser:
 publish-scheduled:
 	docker-compose exec web python manage.py publish_scheduled
 
+
 # Run to create a new app (aka. section) in the project
 # Example: `make startapp name=blog`
 startapp:
