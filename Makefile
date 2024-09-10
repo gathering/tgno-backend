@@ -1,36 +1,36 @@
-# Shortcuts for development when using docker-compose.
+# Shortcuts for development when using docker compose.
 # Part documentation, part convenience
 # 
 # Whenever possible we recommend using an interactive shell inside of web
 # container instead, since that gives full/easier access to any available
 # Django or Wagtail commands
 #
-# This can be accessed by running: `docker-compose exec web bash`
+# This can be accessed by running: `docker compose exec web bash`
 shell:
-	docker-compose exec web bash
+	docker compose exec web bash
 
 makemigrations:
-	docker-compose exec web python manage.py makemigrations
+	docker compose exec web python manage.py makemigrations
 
 migrate:
-	docker-compose exec web python manage.py migrate
+	docker compose exec web python manage.py migrate
 
 createsuperuser:
-	docker-compose exec web python manage.py createsuperuser
+	docker compose exec web python manage.py createsuperuser
 
 # Run to trigger publishing of scheduled content when developing locally
 # in production we run a cronjob that runs the wagtail command every x minutes
 publish-scheduled:
-	docker-compose exec web python manage.py publish_scheduled
+	docker compose exec web python manage.py publish_scheduled
 
 
 # Run to create a new app (aka. section) in the project
 # Example: `make startapp name=blog`
 startapp:
-	docker-compose exec web python manage.py startapp $(name)
+	docker compose exec web python manage.py startapp $(name)
 
 test:
-	docker-compose exec web python manage.py test
+	docker compose exec web python manage.py test
 
 # Run tests with sqllite instead of postgres, mainly for CI purposes
 ci-test:
