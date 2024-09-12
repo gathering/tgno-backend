@@ -5,6 +5,7 @@ on:
     branches:
       - '*'
       - '!main'
+      - '!automatic-build'
   workflow_call:
 
 jobs:
