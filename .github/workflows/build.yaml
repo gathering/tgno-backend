@@ -33,7 +33,7 @@ jobs:
           APP_ENV=production
         push: true
         tags: |
-          ghcr.io/${{ github.repository }}:latest
+          ghcr.io/${{ github.repository }}/wagtail-backend:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
     - name: Build nginx image for amd64
@@ -45,6 +45,6 @@ jobs:
           APP_ENV=nginx-production
         push: true
         tags: |
-          ghcr.io/${{ github.repository }}:latest-nginx
+          ghcr.io/${{ github.repository }}/nginx-static:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
