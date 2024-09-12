@@ -24,7 +24,7 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Build image for amd64
+    - name: Build backend image for amd64
       uses: docker/build-push-action@v6
       with:
         context: .
@@ -34,5 +34,17 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ github.repository }}:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    - name: Build nginx image for amd64
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        platforms: linux/amd64
+        build-args: |
+          APP_ENV=nginx-production
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository }}:latest-nginx
         cache-from: type=gha
         cache-to: type=gha,mode=max

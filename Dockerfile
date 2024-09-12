@@ -50,7 +50,13 @@ RUN echo "Building production image"
 ENV DJANGO_SETTINGS_MODULE=tgno.settings.production
 RUN python manage.py collectstatic --noinput --clear
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
-CMD ["gunicorn", "tgno.wsgi:application"] 
+CMD ["gunicorn", "tgno.wsgi:application"]
+
+# Building the nginx production image
+FROM nginx:1.27-alpine AS nginx-production-image
+RUN echo "Building nginx-production image"
+RUN rm /usr/share/nginx/html/index.html
+COPY --from=production-image /app/static /usr/share/nginx/html
 
 # Building the Dev image
 FROM base AS dev-image
