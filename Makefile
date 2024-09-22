@@ -18,6 +18,9 @@ migrate:
 createsuperuser:
 	docker compose exec web python manage.py createsuperuser
 
+seed-for-development:
+	docker compose exec web python manage.py seed
+
 # Run to trigger publishing of scheduled content when developing locally
 # in production we run a cronjob that runs the wagtail command every x minutes
 publish-scheduled:

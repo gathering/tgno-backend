@@ -1,5 +1,6 @@
 .env
 __pycache__
+.jukit
 
 # Dev assets and state
 db.sqlite3
