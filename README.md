@@ -38,6 +38,7 @@ We are using Docker via docker-compose for local development. To get started
 2. Start apps via `docker-compose up`
 3. Wait until apps are running, and calmed down
 4. Create admin user via `make createsuperuser`
+5. Manually create site content and config, or use `make seed-foor-development` to create basic setup with dummy content (not safe to use if content has already been added)
 
 Once running you should start an interactive shell in `web` container in order to have full access to any Django and Wagtail commands. This can be done via `docker-compose exec web bash`, or via our shortcut `make`/`make shell`
 
