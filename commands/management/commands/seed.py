@@ -4,13 +4,7 @@ from treebeard.exceptions import NodeAlreadySaved
 from wagtail.models import Page, Site
 
 from aktuelt.constants import ContributionTypes
-from aktuelt.models import (
-    Contributor,
-    NewsIndexPage,
-    NewsPage,
-    NewsPageContributor,
-    NewsPageTag,
-)
+from aktuelt.models import Contributor, NewsIndexPage, NewsPage, NewsPageContributor
 from home.models import HomePage
 
 # python manage.py seed --mode=refresh
@@ -44,6 +38,7 @@ def NEWS_SEED_DATA():
             # First entry is the news item
             dict(
                 title="First news",
+                slug="seed-first-news",
                 intro="Test intro",
                 body="Test body",
             ),
@@ -59,6 +54,7 @@ def NEWS_SEED_DATA():
         [
             dict(
                 title="Second news",
+                slug="seed-second-news",
                 intro="Test intro",
                 body="Test body",
             ),
@@ -70,6 +66,7 @@ def NEWS_SEED_DATA():
         [
             dict(
                 title="Third news",
+                slug="seed-third-news",
                 intro="Test intro",
                 body="Test body",
             ),
@@ -86,6 +83,7 @@ def NEWS_SEED_DATA():
         [
             dict(
                 title="Forth news",
+                slug="seed-forth-news",
                 intro="Test intro",
                 body="Test body",
             ),
@@ -99,6 +97,7 @@ def NEWS_SEED_DATA():
         [
             dict(
                 title="Fifth news",
+                slug="seed-fifth-news",
                 intro="Test intro",
                 body="Test body",
             ),
@@ -179,9 +178,9 @@ class Command(BaseCommand):
         for raw_news in NEWS_SEED_DATA():
             news, meta = raw_news
             try:
-                newsPage = NewsPage.objects.get(title=news["title"])
+                newsPage = NewsPage.objects.get(slug=news["slug"])
             except NewsPage.MultipleObjectsReturned:
-                newsPage = NewsPage.objects.filter(title=news["title"]).first()
+                newsPage = NewsPage.objects.filter(slug=news["slug"]).first()
             except NewsPage.DoesNotExist:
                 newsPage = NewsPage()
 
