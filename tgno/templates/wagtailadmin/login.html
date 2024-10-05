@@ -1,0 +1,29 @@
+{% extends "wagtailadmin/login.html" %}
+{% load static %}
+
+{% block branding_login %}{{ SITE_NAME }}{% endblock %}
+
+{% block branding_logo %}
+    <div class="login-logo">
+        <img src="{% static 'images/tglogo_noytral.png' %}" alt="The Gathering Logo" class="icon-wagtail" />
+    </div>
+{% endblock %}
+
+{% block login_form %}
+    {% if DISABLE_LOCAL_AUTH is False %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block submit_buttons %}
+    {% if DISABLE_LOCAL_AUTH is False %}
+        {{ block.super }}
+    {% endif %}
+    {% if KEYCLOAK_LOGIN is True %}
+        {% if DISABLE_LOCAL_AUTH is False %}
+            <br/>
+            <br/>
+        {% endif %}
+        <a href="{% url "social:begin" "keycloak" %}"><button type="button" class="button">Login using Wannabe5</button></a>
+    {% endif %}
+{% endblock %}

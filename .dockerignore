@@ -2,6 +2,7 @@
 /media/
 /static/
 *.sqlite3
+.env
 
 # Python and others
 __pycache__
