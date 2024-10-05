@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block login_form %}
-    {{ KEYCLOAK_LOGIN }}
     {% if DISABLE_LOCAL_AUTH is False %}
         {{ block.super }}
     {% endif %}

@@ -189,12 +189,10 @@ WAGTAILAPI_BASE_URL = env("WAGTAILAPI_BASE_URL", "http://localhost:8000")
 
 # Custom settings
 SITE_NAME = env("SITE_NAME", "TG.no")
-DISABLE_LOCAL_AUTH = env("DISABLE_LOCAL_AUTH", False)
+DISABLE_LOCAL_AUTH = env("DISABLE_LOCAL_AUTH", "False").lower() in ("true", "1")
 
 # Django Social Auth
 AUTHENTICATION_BACKENDS = []
-
-print(env("SOCIAL_AUTH_KEYCLOAK_KEY"))
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 SOCIAL_AUTH_KEYCLOAK_KEY = os.getenv("SOCIAL_AUTH_KEYCLOAK_KEY") or None
