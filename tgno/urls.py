@@ -14,6 +14,7 @@ from .api import api_router as base_api_router
 urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
+    path("", include("social_django.urls")),
     path("documents/", include(wagtaildocs_urls)),
     path("search/", search_views.search, name="search"),
     path("api/v2/", base_api_router.urls),

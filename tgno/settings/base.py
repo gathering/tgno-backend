@@ -20,6 +20,12 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env("SECRET_KEY", "django-insecure-)u4^uo@zde4qa=m+*6x0$r$iro8k5&-=w$%)tf$vj(yf@wg#c=")
+
+# SECURITY WARNING: define the correct hosts in production!
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", "localhost").split(",")
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS", "http://localhost").split(",")
 
 # Application definition
 
@@ -43,6 +49,7 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    "social_django",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -79,6 +86,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "tgno.context_processor.get_site_info",
             ],
         },
     },
@@ -176,6 +184,28 @@ WAGTAILSEARCH_BACKENDS = {
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = env("WAGTAILADMIN_BASE_URL", "http://example.com")
+WAGTAILADMIN_BASE_URL = env("WAGTAILADMIN_BASE_URL", "http://localhost:8000")
+WAGTAILAPI_BASE_URL = env("WAGTAILAPI_BASE_URL", "http://localhost:8000")
 
-WAGTAILAPI_BASE_URL = env("WAGTAILAPI_BASE_URL", "http://example.com")
+# Custom settings
+SITE_NAME = env("SITE_NAME", "TG.no")
+DISABLE_LOCAL_AUTH = env("DISABLE_LOCAL_AUTH", False)
+
+# Django Social Auth
+AUTHENTICATION_BACKENDS = []
+
+print(env("SOCIAL_AUTH_KEYCLOAK_KEY"))
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_KEYCLOAK_KEY = os.getenv("SOCIAL_AUTH_KEYCLOAK_KEY") or None
+SOCIAL_AUTH_KEYCLOAK_SECRET = env("SOCIAL_AUTH_KEYCLOAK_SECRET", None)
+SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY = env("SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY", None)
+SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL = env("SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL", None)
+SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = env("SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL", None)
+LOGIN_REDIRECT_URL = "/admin"
+
+if SOCIAL_AUTH_KEYCLOAK_KEY is not None:
+    AUTHENTICATION_BACKENDS.append("social_core.backends.keycloak.KeycloakOAuth2")
+
+if DISABLE_LOCAL_AUTH is False:
+    AUTHENTICATION_BACKENDS.append("django.contrib.auth.backends.ModelBackend")
