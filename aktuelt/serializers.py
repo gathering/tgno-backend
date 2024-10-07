@@ -47,7 +47,7 @@ class NewsPageGallerySerializer(Field):
         return [
             # 100% guarantee there are better ways to do this
             # TODO: Replace with generic and reusable serializer
-            ImageRenditionField("fill-100x100").to_representation(gallery_image.image)
+            NewsImageSerializer().to_representation(gallery_image.image)
             for gallery_image in value.all()
         ]
 

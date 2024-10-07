@@ -5,7 +5,6 @@ from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField
-from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable, Page, forms
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
@@ -13,6 +12,7 @@ from wagtail.snippets.models import register_snippet
 from aktuelt.constants import ContributionTypes
 from aktuelt.serializers import (
     ContributorsSerializer,
+    NewsImageSerializer,
     NewsPageGallerySerializer,
     NewsPageTagsSerializer,
 )
@@ -104,7 +104,7 @@ class NewsPage(Page):
         APIField("contributors", serializer=ContributorsSerializer(source="news_page_contributors")),
         APIField("tags", serializer=NewsPageTagsSerializer()),
         APIField("gallery_images", serializer=NewsPageGallerySerializer()),
-        APIField("main_image", serializer=ImageRenditionField("fill-100x100", source="get_main_image")),
+        APIField("main_image", serializer=NewsImageSerializer(source="get_main_image")),
     ]
 
     content_panels = Page.content_panels + [
