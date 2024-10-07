@@ -20,7 +20,7 @@ class NewsImageSerializer(Field):
                 "small": self.image_size("max-300x300", value),
                 "medium": self.image_size("max-700x700", value),
                 "large": self.image_size("max-1600x1600", value),
-                "extra-large": self.image_size("max-3200x3200", value),
+                "extra_large": self.image_size("max-3200x3200", value),
             },
         }
         data["url"] = data["sizes"]["large"]["url"]
