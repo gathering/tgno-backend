@@ -1,5 +1,11 @@
 from rest_framework.fields import Field
 from wagtail.images.api.fields import ImageRenditionField
+from wagtail.rich_text import expand_db_html
+
+
+class NewsBodySerializer(Field):
+    def to_representation(self, value):
+        return expand_db_html(value)
 
 
 class NewsImageSerializer(Field):
