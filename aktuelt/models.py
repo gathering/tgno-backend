@@ -12,6 +12,7 @@ from wagtail.snippets.models import register_snippet
 from aktuelt.constants import ContributionTypes
 from aktuelt.serializers import (
     ContributorsSerializer,
+    NewsBodySerializer,
     NewsImageSerializer,
     NewsPageGallerySerializer,
     NewsPageTagsSerializer,
@@ -99,7 +100,7 @@ class NewsPage(Page):
 
     api_fields = [
         APIField("intro"),
-        APIField("body"),
+        APIField("body", serializer=NewsBodySerializer()),
         # TODO: Replace with prettier (main model based?) serializer pattern?
         APIField("contributors", serializer=ContributorsSerializer(source="news_page_contributors")),
         APIField("tags", serializer=NewsPageTagsSerializer()),
