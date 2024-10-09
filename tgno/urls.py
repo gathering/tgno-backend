@@ -12,6 +12,7 @@ from search import views as search_views
 from .api import api_router as base_api_router
 
 urlpatterns = [
+    path(r"backend-health/", include("health_check.urls")),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("", include("social_django.urls")),
