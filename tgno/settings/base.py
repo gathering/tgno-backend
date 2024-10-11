@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "wagtail.api.v2",
     "rest_framework",  # Provides a browser friendly UI for exploring the API
     "wagtail",
+    "wagtail.locales",
     "modelcluster",
     "taggit",
     "health_check",
