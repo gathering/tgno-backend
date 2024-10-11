@@ -140,7 +140,24 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+# Default language code used on content
+LANGUAGE_CODE = "no"
+
+# Frontend languages (not relevant for us, but needs to be filled in since it limits most of the other options)
+LANGUAGES = [
+    ("en", "English"),
+    ("no", "Norwegian"),
+]
+
+# Languages permitted for admin GUI (Norwegian translation is flaky, so disabled)
+WAGTAILADMIN_PERMITTED_LANGUAGES = [("en", "English")]
+
+# Languages permitted for produced content
+# TODO: Uncomment english when frontend experience is nice and ready
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ("no", "Norwegian"),
+    #    ('en', "English"),
+]
 
 TIME_ZONE = "UTC"
 
