@@ -228,7 +228,9 @@ LOGIN_REDIRECT_URL = "/admin"
 if SOCIAL_AUTH_KEYCLOAK_KEY is not None:
     AUTHENTICATION_BACKENDS.append("social_core.backends.keycloak.KeycloakOAuth2")
 
-if DISABLE_LOCAL_AUTH is False:
-    AUTHENTICATION_BACKENDS.append("django.contrib.auth.backends.ModelBackend")
+# if DISABLE_LOCAL_AUTH is False:
+#    AUTHENTICATION_BACKENDS.append("django.contrib.auth.backends.ModelBackend")
+# Add ModelBackend anyways to fix groups
+AUTHENTICATION_BACKENDS.append("django.contrib.auth.backends.ModelBackend")
 
 HEALTH_CHECK = {"SUBSETS": {"liveness": ["DatabaseBackend"]}}
