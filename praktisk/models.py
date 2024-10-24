@@ -1,5 +1,4 @@
 from django.db import models
-from rest_framework.serializers import ModelSerializer
 from wagtail.api.v2.serializers import (
     BaseSerializer,
     ChildRelationField,
