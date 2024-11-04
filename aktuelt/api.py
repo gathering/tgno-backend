@@ -29,5 +29,4 @@ if settings.DEBUG:
         BrowsableAPIRenderer,
     ]
 
-print(NewsPagesAPIViewSet.renderer_classes)
 api_router.register_endpoint("news", NewsPagesAPIViewSet)
