@@ -1,11 +1,11 @@
 from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from modelcluster.fields import ParentalKey, ParentalManyToManyField
+from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable, Page, forms
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
@@ -14,7 +14,6 @@ from aktuelt.serializers import (
     ContributorsSerializer,
     NewsBodySerializer,
     NewsImageSerializer,
-    NewsPageGallerySerializer,
     NewsPageTagsSerializer,
 )
 
@@ -68,14 +67,6 @@ class NewsPage(Page):
         related_name="+",
     )
 
-    def get_main_image(self):
-        if self.main_image:
-            return self.main_image
-
-        gallery_item = self.gallery_images.first()
-
-        return gallery_item.image if gallery_item else None
-
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("body"),
@@ -104,8 +95,7 @@ class NewsPage(Page):
         # TODO: Replace with prettier (main model based?) serializer pattern?
         APIField("contributors", serializer=ContributorsSerializer(source="news_page_contributors")),
         APIField("tags", serializer=NewsPageTagsSerializer()),
-        APIField("gallery_images", serializer=NewsPageGallerySerializer()),
-        APIField("main_image", serializer=NewsImageSerializer(source="get_main_image")),
+        APIField("main_image", serializer=NewsImageSerializer()),
     ]
 
     content_panels = Page.content_panels + [
@@ -121,7 +111,6 @@ class NewsPage(Page):
             ],
             heading="News information",
         ),
-        InlinePanel("gallery_images", label="Gallery images"),
     ]
 
 
@@ -133,17 +122,6 @@ class NewsPageContributor(Orderable):
     panels = [
         FieldPanel("contributor"),
         FieldPanel("contribution_type"),
-    ]
-
-
-class NewsPageGalleryImage(Orderable):
-    page = ParentalKey(NewsPage, on_delete=models.CASCADE, related_name="gallery_images")
-    image = models.ForeignKey("wagtailimages.Image", on_delete=models.CASCADE, related_name="+")
-    caption = models.CharField(blank=True, max_length=250)
-
-    panels = [
-        FieldPanel("image"),
-        FieldPanel("caption"),
     ]
 
 

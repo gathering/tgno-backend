@@ -48,16 +48,6 @@ class ContributorsSerializer(Field):
         ]
 
 
-class NewsPageGallerySerializer(Field):
-    def to_representation(self, value):
-        return [
-            # 100% guarantee there are better ways to do this
-            # TODO: Replace with generic and reusable serializer
-            NewsImageSerializer().to_representation(gallery_image.image)
-            for gallery_image in value.all()
-        ]
-
-
 class NewsPageTagsSerializer(Field):
     def to_representation(self, value):
         return [
