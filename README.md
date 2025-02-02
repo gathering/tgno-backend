@@ -70,3 +70,24 @@ Having test coverage will be helpful when debugging issues or figuring out how e
 ## Contribute?
 
 This repo is developed and maintained by the [Systemstøtte crew](https://wannabe.gathering.org/tg24/crew#crew-82) at [The Gathering](https://www.gathering.org). Once we get further along PR will be accepted, for now either apply to join our crew or reach out to us via issues before spending any time on development.
+
+## Local development using pipx and poetry
+
+If you prefer to use `pipx` and `poetry` for local development, you can do so by following these steps:
+
+### 1. Set up general development and python environment
+
+1. Install `pipx` and `poetry` if you haven't already
+2. Install `poetry` dependencies by running `poetry install`
+3. Install `pre-commit` hooks by running `pre-commit install`
+
+### 2. Set up and run local postgres database instance
+
+1. Configure and run a local posgres via your method of choice
+2. Copy `.env.example` to `.env` and update `POSTGRES_*` variables to match your local setup
+
+### 3. Start development server
+
+1. Run `poetry run python manage.py runserver` to start the development server
+2. Run `poetry run python manage.py migrate` to apply migrations
+3. Run `poetry run python manage.py createsuperuser` to create a superuser

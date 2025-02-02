@@ -3,3 +3,28 @@ profile = "black"
 
 [tool.black]
 line-length = 120
+
+[tool.poetry]
+name = "tgno-backend"
+version = "0.1.0"
+description = ""
+authors = ["Core:Systemstøtte <support@gathering.org>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+Django = ">=5.0,<5.1"
+wagtail= ">=6.3,<6.4"
+psycopg = ">=3.1.8,<4.0"
+social-auth-app-django= "5.4.2"
+django-health-check="3.18.3"
+
+
+[tool.poetry.group.dev.dependencies]
+psycopg2-binary = "^2.9.10"
+
+[build-system]
+# Remember to also update in Dockerfile and Github Workflow
+requires = ["poetry-core==1.9.0"] # 1.8.3
+build-backend = "poetry.core.masonry.api"
