@@ -25,8 +25,9 @@ jobs:
         python-version: '3.12'
     - name: Install Dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        # Remember to also update in pyproject.toml and Dockerfile
+        pip install poetry==2.0.1
+        poetry install --group main
     - name: Run Tests
       run: make ci-test
   build-test:

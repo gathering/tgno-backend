@@ -5,7 +5,7 @@ ARG APP_ENV=dev
 # Supported python3 versions: https://docs.wagtail.org/en/stable/releases/upgrading.html#compatible-django-python-versions
 FROM python:3.13-slim-bookworm AS base
 
-# Remember to also update in pyproject.toml
+# Remember to also update in pyproject.toml and GitHub Workflows
 ENV POETRY_VERSION=2.0.1
 
 # Port used by this container to serve HTTP.
