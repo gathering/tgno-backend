@@ -25,6 +25,7 @@ gunicorn = "23.0.0"
 
 [tool.poetry.group.dev.dependencies]
 psycopg2-binary = "^2.9.10"
+pre-commit = "^4.1.0"
 
 [tool.poetry.requires-plugins]
 poetry-dotenv-plugin = "^0.2.0"
