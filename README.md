@@ -73,7 +73,7 @@ This repo is developed and maintained by the [Systemstøtte crew](https://wannab
 
 ## Local development using pipx and poetry
 
-If you prefer to use `pipx` and `poetry` for local development, you can do so by following these steps:
+If you prefer to use `pipx` and `poetry` (with dotenv plugin) for local development, you can do so by following these steps:
 
 ### 1. Set up general development and python environment
 

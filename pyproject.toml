@@ -19,12 +19,17 @@ wagtail= ">=6.3,<6.4"
 psycopg = ">=3.1.8,<4.0"
 social-auth-app-django= "5.4.2"
 django-health-check="3.18.3"
-
+django-scheduler = "^0.10.1"
+django-extensions = "^3.2.3"
+gunicorn = "23.0.0"
 
 [tool.poetry.group.dev.dependencies]
 psycopg2-binary = "^2.9.10"
 
+[tool.poetry.requires-plugins]
+poetry-dotenv-plugin = "^0.2.0"
+
 [build-system]
 # Remember to also update in Dockerfile and Github Workflow
-requires = ["poetry-core==1.9.0"] # 1.8.3
+requires = ["poetry==2.0.1"]
 build-backend = "poetry.core.masonry.api"

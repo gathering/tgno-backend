@@ -6,10 +6,7 @@ ARG APP_ENV=dev
 FROM python:3.13-slim-bookworm AS base
 
 # Remember to also update in pyproject.toml
-ENV POETRY_VERSION=1.8.3
-
-# Add user that will be used in the container.
-RUN useradd wagtail
+ENV POETRY_VERSION=2.0.1
 
 # Port used by this container to serve HTTP.
 EXPOSE 8000
@@ -20,7 +17,6 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-    build-essential \
     libpq-dev \
     libjpeg62-turbo-dev \
     zlib1g-dev \
@@ -28,51 +24,45 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     netcat-openbsd \
  && rm -rf /var/lib/apt/lists/*
 
-# Install poetry separated from system interpreter
-RUN pip install -U pip setuptools \
-    && pip install poetry==${POETRY_VERSION}
+# Install poetry
+RUN pip install poetry==${POETRY_VERSION}
 
-# Install the application server.
-RUN pip install "gunicorn==23.0.0"
-
-# Install dependencies in .venv directory
-COPY poetry.lock poetry.toml pyproject.toml ./
-RUN poetry install --only main
-
-# Use /app folder as a directory where the source code is stored.
+# Main building step, only used for production since on dev we want things to be less static
+FROM base AS production-builder
+RUN echo "Generating production environment"
 WORKDIR /app
 
-# Set this directory to be owned by the "wagtail" user.
-RUN chown wagtail:wagtail /app
+# Install production/main dependencies into .venv (in-project) directory
+COPY poetry.lock pyproject.toml ./
+RUN poetry config virtualenvs.in-project true \
+	&& poetry install --only main --no-interaction --no-ansi
 
-# Copy the source code of the project into the container.
-COPY --chown=wagtail:wagtail . .
-
-# Use user "wagtail" to run the build commands below and the server itself.
-USER wagtail
-
-# Building the Production image
+# Create final production image by copying the built virtual environment and the source code
 FROM base AS production-image
-RUN echo "Building production image"
+#FROM python:3.13-slim-bookworm AS production-image
+RUN echo "Constructing final production image"
+WORKDIR /app
+
+# Prepare final application folder and environment
 ENV DJANGO_SETTINGS_MODULE=tgno.settings.production
-COPY --from=base /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:$PATH"
+COPY --from=production-builder /app/.venv /app/.venv
+COPY . .
 RUN python manage.py collectstatic --noinput --clear
+
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
 CMD ["gunicorn", "tgno.wsgi:application"]
 
-# Building the nginx production image
+# Create final production image for hosting static files (when desired)
 FROM nginx:1.27-alpine AS nginx-production-image
-RUN echo "Building nginx-production image"
+RUN echo "Building nginx-production image for static file hosting"
 COPY --from=production-image /app/static /usr/share/nginx/html/static
 
-# Building the Dev image
+# Create final development image, which assumes that the source code is mounted as a volume
 FROM base AS dev-image
-RUN echo "Building dev image"
+RUN echo "Preparing final development image"
+WORKDIR /app
 ENV DJANGO_SETTINGS_MODULE=tgno.settings.dev
-COPY --from=base /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
-RUN python manage.py collectstatic --noinput --clear
-CMD ["python", "manage.py", "0.0.0.0:8000"]
+ENTRYPOINT ["/app/entrypoint.dev.sh"]
 
 FROM ${APP_ENV}-image
