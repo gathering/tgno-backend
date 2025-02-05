@@ -13,6 +13,7 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
+# Remember to also update in Dockerfile and Github Workflow
 python = "^3.13"
 Django = ">=5.0,<5.1"
 wagtail= ">=6.3,<6.4"

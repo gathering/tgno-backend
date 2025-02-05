@@ -13,7 +13,8 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.12' 
+        # Remember to also update in pyproject.toml and Dockerfile
+        python-version: '3.13'
     - name: Run pre-commit tests
       uses: pre-commit/action@v3.0.1
   unit-tests:
@@ -22,7 +23,8 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        # Remember to also update in pyproject.toml and Dockerfile
+        python-version: '3.13'
     - name: Install Dependencies
       run: |
         # Remember to also update in pyproject.toml and Dockerfile
