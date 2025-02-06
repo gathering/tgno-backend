@@ -2,27 +2,27 @@ from wagtail.test.utils import WagtailPageTestCase
 
 from home.models import HomePage
 
-from .models import InfoIndexPage, InfoPage
+from .models import FaqIndexPage, InfoPage
 
 
 class PraktiskSanityChecks(WagtailPageTestCase):
     def setUp(self):
         homePage = HomePage.objects.get()
 
-        infoIndexPage = InfoIndexPage(title="Random info index")
-        homePage.add_child(instance=infoIndexPage)
+        rootInfoPage = InfoPage(title="Random info index")
+        homePage.add_child(instance=rootInfoPage)
 
         infoPage = InfoPage(
             title="Test info page",
-            intro="Test intro",
-            body="Test body",
+            # intro="Test intro",
+            # body="Test body",
         )
-        infoIndexPage.add_child(instance=infoPage)
+        rootInfoPage.add_child(instance=infoPage)
 
         InfoPage(
             title="Secret info page",
-            intro="This page isnt part of page tree",
-            body="Test body",
+            # intro="This page isnt part of page tree",
+            # body="Test body",
             # Fake values, probably not possible using Wagtail page model.
             # A nice way of demoing behaviour and difference between API
             # endpoints and the "default" html endpoints, via tests below
@@ -53,15 +53,10 @@ class PraktiskSanityChecks(WagtailPageTestCase):
         self.assertEqual(InfoPage.objects.get(title="Test info page").get_url(), "/random-info-index/test-info-page/")
         self.assertIsNone(InfoPage.objects.get(title="Secret info page").get_url())
 
-    def test_info_page_api_details_contains_schedule(self):
-        infoPage = InfoPage.objects.get(title="Test info page")
-        response = self.client.get(f"/api/v2/info/{infoPage.pk}/")
-        self.assertIsNotNone(response.json().get("meta").get("schedule"))
-
 
 class PraktiskStructure(WagtailPageTestCase):
     def test_info_page_can_only_be_created_under_info_index_page(self):
-        self.assertAllowedParentPageTypes(InfoPage, {InfoIndexPage})
+        self.assertAllowedParentPageTypes(InfoPage, {InfoPage, HomePage})
 
     def test_info_page_index_can_only_have_info_or_index_pages_as_children(self):
-        self.assertAllowedSubpageTypes(InfoIndexPage, {InfoPage, InfoIndexPage})
+        self.assertAllowedSubpageTypes(InfoPage, {InfoPage, FaqIndexPage})

@@ -1,50 +1,30 @@
-from django.db import models
-from wagtail.api.v2.serializers import (
-    BaseSerializer,
-    ChildRelationField,
-    Field,
-    get_serializer_class,
-)
-from wagtail.api.v2.views import APIField, PageSerializer
-
-from aktuelt.models import NewsIndexPage, NewsPage
-from praktisk.serializers import ChildInfoIndexPagesSerializer, ChildInfoPageSerializer
-
-# In info context we imagine structures like this
-# - Practical info (top index/intro) - InfoIndexPage
-#   - Standalone info page 1 - InfoPage
-#   - Safety info (topic intro) - InfoPageIndex
-#     - Safety page 1 - InfoPage
-#     - Safety page 2 - InfoPage
-#   - ...
-#   - Ticket info (topic intro) - InfoPageIndex
-#    - Ticket page 1 - InfoPage
-#    - ...
-#
-# This is a bit different from the news context, where we mostly organize based
-# on tags. This initial setup is an assumption, so feel free to adjust as needed.
+from wagtail.api.v2.views import APIField
+from wagtail.models import Page
 
 
-# Extending the NewsPage models since they have a lot of similarities,
-# feel free to split them up when/if conventient
-class InfoPage(NewsPage):
+# Basic "static" information page that can be endlessly nested
+class InfoPage(Page):
     page_description = "A regular info page"
-    parent_page_types = ["praktisk.InfoIndexPage"]
+    parent_page_types = ["home.HomePage", "praktisk.InfoPage"]
+    subpage_types = ["praktisk.InfoPage", "praktisk.FaqIndexPage"]
+
+    api_meta_fields = [
+        APIField("url"),
+    ]
+
+
+# Information snippets that only exists as siblings of each other
+class FaqPage(Page):
+    page_description = "A regular FAQ entry page"
+    parent_page_types = ["praktisk.FaqIndexPage"]
     subpage_types = []
 
 
-class InfoIndexPage(NewsIndexPage):
-    page_description = "Page to list all published info items"
-    parent_page_types = ["home.HomePage", "praktisk.InfoIndexPage"]
-    subpage_types = ["praktisk.InfoPage", "praktisk.InfoIndexPage"]
+# Page to display a collection of FAQ items
+class FaqIndexPage(Page):
+    page_description = "Page to list FAQ items"
+    subpage_types = ["praktisk.FaqPage"]
 
     api_meta_fields = [
-        APIField("pages", ChildRelationField(serializer_class=ChildInfoPageSerializer)),
-        APIField("topics", serializer=ChildInfoIndexPagesSerializer()),
+        APIField("url"),
     ]
-
-    def pages(self):
-        return InfoPage.objects.live().descendant_of(self)
-
-    def topics(self):
-        return InfoIndexPage.objects.live().descendant_of(self)
