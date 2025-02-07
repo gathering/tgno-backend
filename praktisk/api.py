@@ -28,8 +28,8 @@ class InfoPagesAPIViewSet(PagesAPIViewSet):
         ]
 
     def get_base_queryset(self):
-        # Only allow page types we own
-        return Page.objects.all().type(InfoPage, FaqPage)
+        # Only allow page types we own, and that are live
+        return Page.objects.all().type(InfoPage, FaqPage).live()
 
 
 if settings.DEBUG:
