@@ -9,10 +9,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="infopage",
-            name="newspage_ptr",
-        ),
+        # migrations.RemoveField(
+        #    model_name="infopage",
+        #    name="newspage_ptr",
+        # ),
         migrations.DeleteModel(
             name="InfoIndexPage",
         ),
