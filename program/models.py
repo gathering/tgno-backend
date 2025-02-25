@@ -1,9 +1,7 @@
 from django.db import models
 from schedule.models import Event as EventBase
 from taggit.managers import TaggableManager
-from taggit.models import GenericTaggedItemBase, ItemBase, TagBase, TaggedItemBase
-from wagtail.admin.panels import FieldPanel
-from wagtail.snippets.models import register_snippet
+from taggit.models import TagBase, TaggedItemBase
 
 
 # We use tag instead of category to allow used of hidden "meta" tags (ex. "featured")
