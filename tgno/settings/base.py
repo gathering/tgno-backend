@@ -32,6 +32,7 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS", "http://localhost").split(","
 INSTALLED_APPS = [
     "aktuelt",
     "praktisk",
+    "program",
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "commands",
+    "schedule",
 ]
 
 
