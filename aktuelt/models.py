@@ -54,7 +54,7 @@ class NewsPage(Page):
     parent_page_types = ["aktuelt.NewsIndexPage"]
     subpage_types = []
 
-    custom_published_at = models.DateTimeField("Publish override", blank=True)
+    custom_published_at = models.DateTimeField("Publish override", blank=True, null=True)
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
