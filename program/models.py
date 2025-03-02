@@ -18,6 +18,7 @@ class EventTag(TaggedItemBase):
     tag = models.ForeignKey(
         Tag,
         on_delete=models.CASCADE,
+        related_name="event_tags",
     )
 
     content_object = models.ForeignKey("program.Event", on_delete=models.CASCADE)
