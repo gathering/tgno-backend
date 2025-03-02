@@ -55,7 +55,6 @@ class NewsPage(Page):
     subpage_types = []
 
     custom_published_at = models.DateTimeField("Publish override", blank=True, null=True)
-    custom_updated_at = models.DateTimeField("Update override", blank=True, null=True)
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
@@ -72,22 +71,9 @@ class NewsPage(Page):
         index.SearchField("body"),
     ]
 
-    def schedule(self):
-        updated_at = self.custom_updated_at or self.last_published_at
-        published_at = self.custom_published_at or self.first_published_at
-
-        return {
-            "updated_at": updated_at.isoformat() if updated_at else None,
-            "published_at": published_at.isoformat() if published_at else None,
-            "unpublished_at": self.expire_at.isoformat() if self.expire_at else None,
-        }
-
-    # This is the equivalent of extending `meta_fields` on NewsPagesApiViewSet.
-    # Doing it here since I want to reference potentially non-existing/local
-    # fields, even if it should ideally behave consistenly between content types
-    api_meta_fields = ["schedule"]
-
-    api_filter_fields = ["first_published_at"]
+    api_meta_fields = [
+        "custom_published_at",
+    ]
 
     api_fields = [
         APIField("intro"),
@@ -105,7 +91,6 @@ class NewsPage(Page):
         MultiFieldPanel(
             [
                 FieldPanel("custom_published_at"),
-                FieldPanel("custom_updated_at"),
                 FieldPanel("tags"),
                 InlinePanel("news_page_contributors", label="Contributors"),
             ],

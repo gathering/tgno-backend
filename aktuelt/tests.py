@@ -16,6 +16,7 @@ class AktueltSanityChecks(WagtailPageTestCase):
             title="Test news page",
             intro="Test intro",
             body="Test body",
+            custom_published_at="2021-01-01T00:00:00Z",
         )
         newsIndexPage.add_child(instance=newsPage)
 
@@ -63,10 +64,10 @@ class AktueltSanityChecks(WagtailPageTestCase):
         response = self.client.get(newsPage.get_url() or "/invalid-url/")
         self.assertEqual(response.status_code, 404)
 
-    def test_news_page_api_details_contains_schedule(self):
+    def test_news_page_api_details_contains_custom_published_at(self):
         newsPage = NewsPage.objects.get(title="Test news page")
         response = self.client.get(f"/api/v2/news/{newsPage.pk}/")
-        self.assertIsNotNone(response.json().get("meta").get("schedule"))
+        self.assertIsNotNone(response.json().get("meta").get("custom_published_at"))
 
 
 class AktueltNewsPageStructure(WagtailPageTestCase):
@@ -88,43 +89,6 @@ class NewsPageBehaviour(WagtailPageTestCase):
         )
         self.newsPage.save()
 
-    def test_schedule_is_empty_by_default(self):
-        self.assertEqual(
-            self.newsPage.schedule(),
-            {
-                "updated_at": None,
-                "published_at": None,
-                "unpublished_at": None,
-            },
-        )
-
-    def test_schedule_reflects_publish_history(self):
-        self.newsPage.save_revision().publish()
-        self.newsPage.save_revision().publish()
-
-        self.newsPage.refresh_from_db()
-        self.assertEqual(
-            self.newsPage.schedule(),
-            {
-                "updated_at": self.newsPage.last_published_at.isoformat(),
-                "published_at": self.newsPage.first_published_at.isoformat(),
-                "unpublished_at": None,
-            },
-        )
-
-    def test_schedule_reflects_manual_overrides(self):
-        test_date = "2021-01-01T00:00:00+00:00"
-
-        self.newsPage.custom_published_at = test_date
-        self.newsPage.custom_updated_at = test_date
-        self.newsPage.save_revision().publish()
-
-        self.newsPage.refresh_from_db()
-        self.assertEqual(
-            self.newsPage.schedule(),
-            {
-                "updated_at": test_date,
-                "published_at": test_date,
-                "unpublished_at": None,
-            },
-        )
+    def test_publishing_is_empty_by_default(self):
+        self.assertEqual(self.newsPage.first_published_at, None)
+        self.assertEqual(self.newsPage.custom_published_at, None)
