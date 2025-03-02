@@ -15,6 +15,9 @@ class EventTagSerializer(ModelSerializer):
             "id": instance.id,
             "name": instance.name,
             "slug": instance.slug,
+            "type": instance.type,
+            "hidden": instance.hidden,
+            "parent": instance.parent.id if instance.parent else None,
         }
 
 
@@ -43,7 +46,7 @@ class EventSerializer(TaggitSerializer, ModelSerializer):
         result = {
             "id": instance.id,
             "title": instance.title,
-            "tags": EventTagsSerializer().to_representation(instance.tags),
+            "tags": EventTagsSerializer().to_representation(instance.tags.filter(hidden=False)),
             "start": instance.start,
             "end": instance.end,
             "color": instance.event.color_event,

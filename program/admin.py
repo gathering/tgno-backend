@@ -9,7 +9,7 @@ from program.models import Event, Tag
 class EventTagAdmin(SnippetViewSet):
     model = Tag
 
-    menu_label = "Categories"
+    menu_label = "Tags"
     menu_icon = "tag"
 
 

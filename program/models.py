@@ -8,10 +8,21 @@ from taggit.models import TagBase, TaggedItemBase
 # most of the time we expect an event to only have one regular tag
 class Tag(TagBase):
     free_tagging = False
+    hidden = models.BooleanField(default=False)
+    type = models.CharField(
+        choices=[
+            ("category", "Category"),
+            ("location", "Location"),
+            ("meta", "Meta"),
+        ],
+        default="category",
+        max_length=10,
+    )
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
 
 
 class EventTag(TaggedItemBase):

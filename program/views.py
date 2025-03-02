@@ -15,8 +15,15 @@ from program.serializers import CalendarSerializer, EventSerializer, EventTagSer
 
 
 class TagsView(generics.ListAPIView):
-    queryset = Tag.objects.all()
+    queryset = Tag.objects.all().filter(hidden=False)
     serializer_class = EventTagSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        type = self.request.GET.get("type")
+        if type:
+            queryset = queryset.filter(type=type)
+        return queryset
 
 
 class CalendarView(generics.RetrieveAPIView):
