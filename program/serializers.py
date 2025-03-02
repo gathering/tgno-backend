@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ListSerializer, ModelSerializer
 from schedule.models import Calendar
 from taggit.serializers import TaggitSerializer
 
@@ -11,13 +11,19 @@ class EventTagSerializer(ModelSerializer):
         fields = "__all__"
 
     def to_representation(self, instance):
-        return [
-            {
-                "id": tag.id,
-                "name": tag.name,
-            }
-            for tag in instance.all()
-        ]
+        return {
+            "id": instance.id,
+            "name": instance.name,
+            "slug": instance.slug,
+        }
+
+
+class EventTagsSerializer(ListSerializer):
+    child = EventTagSerializer()
+
+    class Meta:
+        model = EventTag
+        fields = "__all__"
 
 
 class CalendarSerializer(ModelSerializer):
@@ -33,19 +39,30 @@ class EventSerializer(TaggitSerializer, ModelSerializer):
         model = Event
         fields = "__all__"
 
-    def to_representation(self, instance):
-        return {
+    def to_representation(self, instance, occurrence=None, extra={}):
+        result = {
             "id": instance.id,
             "title": instance.title,
-            "tags": EventTagSerializer().to_representation(instance.tags),
+            "tags": EventTagsSerializer().to_representation(instance.tags),
             "start": instance.start,
             "end": instance.end,
-            # "existed": instance.existed,
             "color": instance.event.color_event,
             "description": instance.description,
-            # "rule": recur_rule,
-            # "end_recurring_period": recur_period_end,
-            # "creator": str(instance.event.creator),
             "calendar": instance.event.calendar.slug,
-            # "cancelled": instance.cancelled,
+        }
+
+        if occurrence:
+            result = {
+                **result,
+                **{
+                    "occurrence_id": occurrence.id,
+                    "start": occurrence.start,
+                    "end": occurrence.end,
+                    "cancelled": occurrence.cancelled,
+                },
+            }
+
+        return {
+            **result,
+            **extra,
         }
