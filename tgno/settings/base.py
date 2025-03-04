@@ -162,7 +162,9 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     #    ('en', "English"),
 ]
 
-TIME_ZONE = "UTC"
+WAGTAIL_USER_TIME_ZONES = ["Europe/Oslo"]
+
+TIME_ZONE = "Europe/Oslo"
 
 USE_I18N = True
 
