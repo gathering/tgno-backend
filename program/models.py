@@ -2,6 +2,7 @@ from django.db import models
 from schedule.models import Event as EventBase
 from taggit.managers import TaggableManager
 from taggit.models import TagBase, TaggedItemBase
+from wagtail.fields import RichTextField
 
 
 # We use tag instead of category to allow used of hidden "meta" tags (ex. "featured")
@@ -38,3 +39,5 @@ class EventTag(TaggedItemBase):
 class Event(EventBase, models.Model):
     tags = TaggableManager(through=EventTag, blank=True)
     hidden = models.BooleanField(default=False)
+    related_page = models.ForeignKey("wagtailcore.Page", on_delete=models.CASCADE, null=True, blank=True)
+    related_url = models.URLField(blank=True)

@@ -49,9 +49,10 @@ class EventSerializer(TaggitSerializer, ModelSerializer):
             "tags": EventTagsSerializer().to_representation(instance.tags.filter(hidden=False)),
             "start": instance.start,
             "end": instance.end,
-            "color": instance.event.color_event,
             "description": instance.description,
             "calendar": instance.event.calendar.slug,
+            "related_url": instance.event.related_url if instance.event.related_url else None,
+            "related_page": instance.event.related_page.slug if instance.event.related_page else None,
         }
 
         if occurrence:

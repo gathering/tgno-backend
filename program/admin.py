@@ -34,12 +34,19 @@ class EventModelAdmin(SnippetViewSet):
                     FieldPanel("start"),
                     FieldPanel("end"),
                     FieldPanel("description"),
-                    FieldPanel("hidden"),
                 ],
                 heading="Event",
             ),
             ObjectList(
                 [
+                    FieldPanel("hidden"),
+                    FieldPanel("related_url"),
+                ],
+                heading="Advanced",
+            ),
+            ObjectList(
+                [
+                    FieldPanel("related_page"),
                     FieldPanel("rule"),
                     FieldPanel("end_recurring_period"),
                     FieldPanel("color_event"),
