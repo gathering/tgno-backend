@@ -34,6 +34,7 @@ class EventModelAdmin(SnippetViewSet):
                     FieldPanel("start"),
                     FieldPanel("end"),
                     FieldPanel("description"),
+                    FieldPanel("hidden"),
                 ],
                 heading="Event",
             ),

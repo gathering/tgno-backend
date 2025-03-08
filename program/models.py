@@ -37,3 +37,4 @@ class EventTag(TaggedItemBase):
 
 class Event(EventBase, models.Model):
     tags = TaggableManager(through=EventTag, blank=True)
+    hidden = models.BooleanField(default=False)

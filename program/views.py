@@ -33,13 +33,13 @@ class CalendarView(generics.RetrieveAPIView):
 
 
 class EventView(generics.RetrieveAPIView):
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().filter(hidden=False)
     serializer_class = EventSerializer
 
 
 # Our new entrypoint, replaces `schedule.views.api_occurrences`
 class EventsView(generics.ListAPIView):
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().filter(hidden=False)
     serializer_class = EventSerializer
 
     def list(self, request, *args, **kwargs):
