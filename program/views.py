@@ -64,6 +64,8 @@ class EventsView(generics.ListAPIView):
 
         events = api_occurrences(queryset, start, end, timezone)
 
+        events.sort(key=lambda x: x["start"])
+
         return JsonResponse(events, safe=False)
 
 
