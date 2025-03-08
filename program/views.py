@@ -33,13 +33,13 @@ class CalendarView(generics.RetrieveAPIView):
 
 
 class EventView(generics.RetrieveAPIView):
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().filter(hidden=False)
     serializer_class = EventSerializer
 
 
 # Our new entrypoint, replaces `schedule.views.api_occurrences`
 class EventsView(generics.ListAPIView):
-    queryset = Event.objects.all()
+    queryset = Event.objects.all().filter(hidden=False)
     serializer_class = EventSerializer
 
     def list(self, request, *args, **kwargs):
@@ -63,6 +63,8 @@ class EventsView(generics.ListAPIView):
             queryset = queryset.filter(tags__slug__in=tags.split(","))
 
         events = api_occurrences(queryset, start, end, timezone)
+
+        events.sort(key=lambda x: x["start"])
 
         return JsonResponse(events, safe=False)
 
@@ -122,13 +124,17 @@ def api_occurrences(queryset, start, end, timezone):
 
     for event in queryset:
         occurrences = event.get_occurrences(start, end)
-        for occurrence in occurrences:
+
+        for x, occurrence in enumerate(occurrences):
             occurrence_id = i + occurrence.event.id
+            occurrence_id = "{0}-{1}".format(occurrence_id, x + 1)
             existed = False
 
             if occurrence.id:
                 occurrence_id = occurrence.id
                 existed = True
+            else:
+                x += 1
 
             recur_rule = occurrence.event.rule.name if occurrence.event.rule else None
 
