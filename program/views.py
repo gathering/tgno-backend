@@ -124,13 +124,17 @@ def api_occurrences(queryset, start, end, timezone):
 
     for event in queryset:
         occurrences = event.get_occurrences(start, end)
-        for occurrence in occurrences:
+
+        for x, occurrence in enumerate(occurrences):
             occurrence_id = i + occurrence.event.id
+            occurrence_id = "{0}-{1}".format(occurrence_id, x + 1)
             existed = False
 
             if occurrence.id:
                 occurrence_id = occurrence.id
                 existed = True
+            else:
+                x += 1
 
             recur_rule = occurrence.event.rule.name if occurrence.event.rule else None
 
