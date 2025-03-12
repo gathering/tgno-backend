@@ -25,6 +25,7 @@ class InfoChildPageSerializer(PageSerializer):
                 "title": entry.title,
                 "url": entry.url,
                 "intro": entry.body,
+                "show_in_menus": entry.show_in_menus,
             }
             for entry in pages.all()
         ]
