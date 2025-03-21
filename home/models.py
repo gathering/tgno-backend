@@ -15,6 +15,7 @@ class HomePage(Page):
 
 
 class CustomImage(AbstractImage):
+    id = models.BigAutoField(primary_key=True, serialize=False, verbose_name="ID")
     uncroppable = models.BooleanField(default=False)
 
     admin_form_fields = WagtailImage.admin_form_fields + ("uncroppable",)
@@ -28,6 +29,7 @@ class CustomImage(AbstractImage):
 
 
 class CustomRendition(AbstractRendition):
+    id = models.BigAutoField(primary_key=True, serialize=False, verbose_name="ID")
     image = models.ForeignKey(CustomImage, on_delete=models.CASCADE, related_name="renditions")
 
     class Meta:
