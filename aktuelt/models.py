@@ -13,9 +13,9 @@ from aktuelt.constants import ContributionTypes
 from aktuelt.serializers import (
     ContributorsSerializer,
     NewsBodySerializer,
-    NewsImageSerializer,
     NewsPageTagsSerializer,
 )
+from home.serializers import ImageSerializer
 
 
 class NewsPageTag(TaggedItemBase):
@@ -59,7 +59,7 @@ class NewsPage(Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=NewsPageTag, blank=True)
     main_image = models.ForeignKey(
-        "wagtailimages.Image",
+        "home.CustomImage",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -81,7 +81,7 @@ class NewsPage(Page):
         # TODO: Replace with prettier (main model based?) serializer pattern?
         APIField("contributors", serializer=ContributorsSerializer(source="news_page_contributors")),
         APIField("tags", serializer=NewsPageTagsSerializer()),
-        APIField("main_image", serializer=NewsImageSerializer()),
+        APIField("main_image", serializer=ImageSerializer()),
     ]
 
     content_panels = Page.content_panels + [
@@ -114,7 +114,7 @@ class NewsPageContributor(Orderable):
 class Contributor(models.Model):
     name = models.CharField(max_length=255)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        "home.CustomImage",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
