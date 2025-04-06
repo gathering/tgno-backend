@@ -60,7 +60,8 @@ class EventsView(generics.ListAPIView):
         )
 
         if tags:
-            queryset = queryset.filter(tags__slug__in=tags.split(","))
+            for tag in tags.split(","):
+                queryset = queryset.filter(tags__slug=tag)
 
         events = api_occurrences(queryset, start, end, timezone)
 
