@@ -4,7 +4,7 @@ from wagtail.api.v2.views import APIField
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
-from aktuelt.serializers import NewsBodySerializer
+from aktuelt.serializers import NewsBodySerializer, NewsImageSerializer
 from praktisk.serializers import FaqChildPageSerializer, InfoChildPageSerializer
 
 
@@ -16,6 +16,13 @@ class InfoPage(Page):
 
     intro = models.CharField(max_length=250, blank=True)
     body = RichTextField(blank=True)
+    main_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
 
     api_meta_fields = [
         APIField("url"),
@@ -26,10 +33,12 @@ class InfoPage(Page):
         APIField("body", serializer=NewsBodySerializer()),
         APIField("faq", serializer=FaqChildPageSerializer(source="get_child_faq_pages")),
         APIField("pages", serializer=InfoChildPageSerializer(source="get_child_info_pages")),
+        APIField("main_image", serializer=NewsImageSerializer()),
     ]
 
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
+        FieldPanel("main_image"),
         FieldPanel("body"),
     ]
 
