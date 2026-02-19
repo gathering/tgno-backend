@@ -52,10 +52,6 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     "health_check",
-    "health_check.db",
-    "health_check.cache",
-    "health_check.storage",
-    "health_check.contrib.migrations",
     "social_django",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -236,5 +232,3 @@ if SOCIAL_AUTH_KEYCLOAK_KEY is not None:
 #    AUTHENTICATION_BACKENDS.append("django.contrib.auth.backends.ModelBackend")
 # Add ModelBackend anyways to fix groups
 AUTHENTICATION_BACKENDS.append("django.contrib.auth.backends.ModelBackend")
-
-HEALTH_CHECK = {"SUBSETS": {"liveness": ["DatabaseBackend"]}}

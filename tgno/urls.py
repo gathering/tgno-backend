@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path, re_path
+from health_check.views import HealthCheckView
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
@@ -13,7 +14,25 @@ from search import views as search_views
 from .api import api_router as base_api_router
 
 urlpatterns = [
-    path(r"backend-health/", include("health_check.urls")),
+    path(
+        r"backend-health/",
+        HealthCheckView.as_view(
+            checks=[
+                "health_check.Cache",
+                "health_check.Database",
+                "health_check.Mail",
+                "health_check.Storage",
+            ]
+        ),
+    ),
+    path(
+        r"backend-health/liveness/",
+        HealthCheckView.as_view(
+            checks=[
+                "health_check.Database",
+            ]
+        ),
+    ),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("", include("social_django.urls")),
