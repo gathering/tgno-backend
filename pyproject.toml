@@ -15,7 +15,7 @@ package-mode = false
 [tool.poetry.dependencies]
 # Remember to also update in Dockerfile and Github Workflow
 python = "^3.13"
-Django = ">=5.0,<5.1"
+Django = ">=5.0,<5.2"
 wagtail= ">=6.3,<6.4"
 psycopg = ">=3.1.8,<4.0"
 social-auth-app-django= "5.4.2"
