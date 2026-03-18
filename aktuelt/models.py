@@ -1,4 +1,9 @@
+import secrets
+
+from django.conf import settings
+from django.core.cache import cache
 from django.db import models
+from django.template.response import TemplateResponse
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
@@ -9,6 +14,7 @@ from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
+from aktuelt.article_payload import build_news_article_payload
 from aktuelt.constants import ContributionTypes
 from aktuelt.serializers import (
     ContributorsSerializer,
@@ -97,6 +103,21 @@ class NewsPage(Page):
             heading="News information",
         ),
     ]
+
+    def serve_preview(self, request, mode_name):
+        token = secrets.token_urlsafe(32)
+        cache.set(f"news_preview:{token}", build_news_article_payload(self), timeout=15 * 60)
+
+        frontend_base_url = getattr(settings, "FRONTEND_PREVIEW_BASE_URL", "http://localhost:4321").rstrip("/")
+        return TemplateResponse(
+            request,
+            "aktuelt/news_page_frontend_preview.html",
+            context={
+                "token": token,
+                "frontend_preview_base_url": frontend_base_url,
+                "slug": self.slug,
+            },
+        )
 
 
 class NewsPageContributor(Orderable):
