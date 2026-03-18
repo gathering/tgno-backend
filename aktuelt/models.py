@@ -1,4 +1,9 @@
+import secrets
+
+from django.conf import settings
+from django.core.cache import cache
 from django.db import models
+from django.template.response import TemplateResponse
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
@@ -97,6 +102,43 @@ class NewsPage(Page):
             heading="News information",
         ),
     ]
+
+    def _build_frontend_preview_payload(self):
+        # Shape intentionally matches what the Astro frontend expects from `/api/v2/news/{id}/`.
+        return {
+            "id": self.id,
+            "title": self.title,
+            "intro": self.intro,
+            "body": NewsBodySerializer().to_representation(self.body),
+            "contributors": ContributorsSerializer().to_representation(self.news_page_contributors),
+            "tags": NewsPageTagsSerializer().to_representation(self.tags),
+            "main_image": NewsImageSerializer().to_representation(self.main_image) if self.main_image else None,
+            "meta": {
+                "type": "aktuelt.NewsPage",
+                "detail_url": None,
+                "html_url": None,
+                "slug": self.slug,
+                "first_published_at": self.first_published_at.isoformat() if self.first_published_at else None,
+                "custom_published_at": self.custom_published_at.isoformat() if self.custom_published_at else None,
+                "seo_title": self.seo_title,
+                "search_description": self.search_description,
+                "locale": getattr(self.locale, "language_code", None),
+            },
+        }
+
+    def serve_preview(self, request, mode_name):
+        token = secrets.token_urlsafe(32)
+        cache.set(f"news_preview:{token}", self._build_frontend_preview_payload(), timeout=15 * 60)
+
+        frontend_base_url = getattr(settings, "FRONTEND_PREVIEW_BASE_URL", "http://localhost:4321").rstrip("/")
+        return TemplateResponse(
+            request,
+            "aktuelt/news_page_frontend_preview.html",
+            context={
+                "token": token,
+                "frontend_preview_base_url": frontend_base_url,
+            },
+        )
 
 
 class NewsPageContributor(Orderable):

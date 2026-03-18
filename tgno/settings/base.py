@@ -214,6 +214,11 @@ WAGTAILAPI_BASE_URL = env("WAGTAILAPI_BASE_URL", "http://localhost:8000")
 SITE_NAME = env("SITE_NAME", "TG.no")
 DISABLE_LOCAL_AUTH = env("DISABLE_LOCAL_AUTH", "False").lower() in ("true", "1")
 
+# Frontend preview
+FRONTEND_PREVIEW_BASE_URL = env("FRONTEND_PREVIEW_BASE_URL", "http://localhost:4321").rstrip("/")
+# Allow frontend preview to fetch draft JSON.
+FRONTEND_PREVIEW_ORIGIN = env("FRONTEND_PREVIEW_ORIGIN", "http://localhost:4321")
+
 # Django Social Auth
 AUTHENTICATION_BACKENDS = []
 

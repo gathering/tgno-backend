@@ -7,6 +7,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from aktuelt.api import api_router as aktuelt_api_router
+from aktuelt.views_preview import news_frontend_preview
 from praktisk.api import api_router as praktisk_api_router
 from program.api import urlpatterns as program_urls
 from search import views as search_views
@@ -38,6 +39,7 @@ urlpatterns = [
     path("", include("social_django.urls")),
     path("api/v2/documents/", include(wagtaildocs_urls)),
     path("api/v2/search/", search_views.search, name="search"),
+    path("api/v2/preview/news/<str:token>/", news_frontend_preview, name="news_frontend_preview"),
     path("api/v2/", base_api_router.urls),
     path("api/v2/", aktuelt_api_router.urls),
     path("api/v2/", praktisk_api_router.urls),
