@@ -14,6 +14,7 @@ from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
+from aktuelt.article_payload import build_news_article_payload
 from aktuelt.constants import ContributionTypes
 from aktuelt.serializers import (
     ContributorsSerializer,
@@ -103,32 +104,9 @@ class NewsPage(Page):
         ),
     ]
 
-    def _build_frontend_preview_payload(self):
-        # Shape intentionally matches what the Astro frontend expects from `/api/v2/news/{id}/`.
-        return {
-            "id": self.id,
-            "title": self.title,
-            "intro": self.intro,
-            "body": NewsBodySerializer().to_representation(self.body),
-            "contributors": ContributorsSerializer().to_representation(self.news_page_contributors),
-            "tags": NewsPageTagsSerializer().to_representation(self.tags),
-            "main_image": NewsImageSerializer().to_representation(self.main_image) if self.main_image else None,
-            "meta": {
-                "type": "aktuelt.NewsPage",
-                "detail_url": None,
-                "html_url": None,
-                "slug": self.slug,
-                "first_published_at": self.first_published_at.isoformat() if self.first_published_at else None,
-                "custom_published_at": self.custom_published_at.isoformat() if self.custom_published_at else None,
-                "seo_title": self.seo_title,
-                "search_description": self.search_description,
-                "locale": getattr(self.locale, "language_code", None),
-            },
-        }
-
     def serve_preview(self, request, mode_name):
         token = secrets.token_urlsafe(32)
-        cache.set(f"news_preview:{token}", self._build_frontend_preview_payload(), timeout=15 * 60)
+        cache.set(f"news_preview:{token}", build_news_article_payload(self), timeout=15 * 60)
 
         frontend_base_url = getattr(settings, "FRONTEND_PREVIEW_BASE_URL", "http://localhost:4321").rstrip("/")
         return TemplateResponse(
@@ -137,6 +115,7 @@ class NewsPage(Page):
             context={
                 "token": token,
                 "frontend_preview_base_url": frontend_base_url,
+                "slug": self.slug,
             },
         )
 

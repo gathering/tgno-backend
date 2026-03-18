@@ -21,7 +21,7 @@
   <body>
     <iframe
       class="frame"
-      src="{{ frontend_preview_base_url }}/preview/news?token={{ token|urlencode }}"
+      src="{{ frontend_preview_base_url }}/news/{{ slug|urlencode }}?token={{ token|urlencode }}"
       title="Frontend preview"
     ></iframe>
   </body>
