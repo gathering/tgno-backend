@@ -79,14 +79,27 @@ class Competition(Page):
         FieldPanel("description"),
         FieldPanel("signup_link"),
         InlinePanel("competition_rule_sets", label="Rule Sets"),
+        InlinePanel("competition_prizes", label="Prizes"),
     ]
 
     api_fields = [
         APIField("description"),
         APIField("signup_link"),
-        APIField("competition_type"),
+        APIField("category"),
         APIField("rule_sets"),
+        APIField("prizes"),
     ]
+
+    @property
+    def category(self):
+        """Return competition type details"""
+        if self.competition_type:
+            return {
+                "id": self.competition_type.id,
+                "name": self.competition_type.name,
+                "group": self.competition_type.group,
+            }
+        return None
 
     @property
     def rule_sets(self):
@@ -98,6 +111,17 @@ class Competition(Page):
                 "rules": crs.rule_set.rules,
             }
             for crs in self.competition_rule_sets.select_related("rule_set").all()
+        ]
+
+    @property
+    def prizes(self):
+        """Return ordered prizes"""
+        return [
+            {
+                "name": prize.name,
+                "price": prize.price,
+            }
+            for prize in self.competition_prizes.all()
         ]
 
 
@@ -114,6 +138,20 @@ class CompetitionRuleSet(Orderable):
 
     def __str__(self):
         return f"{self.competition.title} - {self.rule_set.title}"
+
+
+class Prize(Orderable):
+    competition = ParentalKey(Competition, on_delete=models.CASCADE, related_name="competition_prizes")
+    name = models.CharField(max_length=255, blank=True, help_text="Optional name (e.g., '1st place', 'Best Design')")
+    price = models.CharField(max_length=255, help_text="Prize value (can be a number or text like 'Gaming PC')")
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("price"),
+    ]
+
+    def __str__(self):
+        return f"{self.competition.title} - {self.name or 'Prize'}: {self.price}"
 
 
 @register_snippet

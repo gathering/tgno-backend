@@ -7,9 +7,10 @@ class CompetitionSerializer(serializers.Serializer):
     slug = serializers.CharField()
     description = serializers.CharField()
     signup_link = serializers.URLField()
-    competition_type = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+    prizes = serializers.ListField()
 
-    def get_competition_type(self, obj):
+    def get_category(self, obj):
         if obj.competition_type:
             return {
                 "id": obj.competition_type.id,
