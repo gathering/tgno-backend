@@ -110,7 +110,7 @@ class Competition(Page):
                 "title": crs.rule_set.title,
                 "rules": crs.rule_set.rules,
             }
-            for crs in self.competition_rule_sets.select_related("rule_set").all()
+            for crs in self.competition_rule_sets.select_related("rule_set").order_by("sort_order").all()
         ]
 
     @property
@@ -121,7 +121,7 @@ class Competition(Page):
                 "name": prize.name,
                 "price": prize.price,
             }
-            for prize in self.competition_prizes.all()
+            for prize in self.competition_prizes.order_by("sort_order").all()
         ]
 
 
