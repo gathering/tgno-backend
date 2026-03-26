@@ -7,6 +7,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from aktuelt.api import api_router as aktuelt_api_router
+from konkurranse.api import api_router as konkurranse_api_router
 from praktisk.api import api_router as praktisk_api_router
 from program.api import urlpatterns as program_urls
 from search import views as search_views
@@ -40,6 +41,7 @@ urlpatterns = [
     path("api/v2/search/", search_views.search, name="search"),
     path("api/v2/", base_api_router.urls),
     path("api/v2/", aktuelt_api_router.urls),
+    path("api/v2/", konkurranse_api_router.urls),
     path("api/v2/", praktisk_api_router.urls),
     path("api/v2/", include(program_urls)),
     re_path(r"^", include(wagtail_urls)),

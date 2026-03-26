@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "program",
     "home",
     "search",
+    "konkurranse",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
