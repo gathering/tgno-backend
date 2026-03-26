@@ -110,7 +110,7 @@ class Competition(Page):
                 "title": crs.rule_set.title,
                 "rules": crs.rule_set.rules,
             }
-            for crs in self.competition_rule_sets.select_related("rule_set").order_by("sort_order").all()
+            for crs in self.competition_rule_sets.select_related("rule_set").all()
         ]
 
     @property
@@ -135,6 +135,7 @@ class CompetitionRuleSet(Orderable):
 
     class Meta:
         unique_together = [["competition", "rule_set"]]
+        ordering = ["sort_order"]
 
     def __str__(self):
         return f"{self.competition.title} - {self.rule_set.title}"
