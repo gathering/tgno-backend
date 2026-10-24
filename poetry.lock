@@ -583,14 +583,14 @@ testing = ["django-modelcluster"]
 
 [[package]]
 name = "django-scheduler"
-version = "0.10.2"
+version = "0.12.0"
 description = "A calendaring app for Django."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "django_scheduler-0.10.2-py3-none-any.whl", hash = "sha256:30909d6a94ed01ccef350f831017d246227dd137412cdb55d20f9bf18d586f78"},
-    {file = "django_scheduler-0.10.2.tar.gz", hash = "sha256:923b92129fc4a9825b6d82153cfa470f2fc00d51a3bcf42e52f9a3393d88d882"},
+    {file = "django_scheduler-0.12.0-py3-none-any.whl", hash = "sha256:cd25b3dacaa3e911f61645920dd981130c97d61229a5aa30da29bcf952e7ab2c"},
+    {file = "django_scheduler-0.12.0.tar.gz", hash = "sha256:a9c280bd4fd7978ea85c4b265d17a69070213ba99b76192e80a143805259d2a1"},
 ]
 
 [package.dependencies]
@@ -1689,4 +1689,4 @@ wand = ["Wand (>=0.6,<1.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "ddfdde4530250e7a916a6d7c7e74a5bcb42a33e53d1a22790ffbfafe6b4ba8ee"
+content-hash = "e0c46f9430e4cca7f9a828879f236b58bcaa9cd57f39bbd73ee1804945ddcdbe"
