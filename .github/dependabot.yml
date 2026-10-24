@@ -1,28 +1,73 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
+
+# Security updates ignore schedule and cooldown. Enable "Dependabot security
+# updates" in the repo's Code security settings for them to be raised.
+
 updates:
-  - package-ecosystem: "pip" # Value required for poetry
-    directory: "/" # Location of package manifests
+  # Python (poetry.lock / pyproject.toml)
+  - package-ecosystem: pip
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "wednesday"
+      interval: weekly
+      day: wednesday
       time: "16:00"
-      timezone: "CET"
-
-    open-pull-requests-limit: 2
-
+      timezone: CET
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 4
     groups:
+      # Security updates: one PR for all non-major fixes. Majors get their own PR.
+      security-patches:
+        applies-to: security-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+      # Wagtail pins the supported Django range, so they move together,
+      # majors included.
       wagtail:
         patterns:
           - "wagtail"
+          - "wagtail-*"
+      # Everything else: minor/patch only. Majors get individual PRs.
       catch-all:
-        patterns:
-          - "*"
+        patterns: ["*"]
+        update-types: [minor, patch]
+    labels: [dependencies, dependabot, python]
 
-    labels:
-      - "dependencies"
-      - "dependabot"
+  # Base images in Dockerfile
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: wednesday
+      time: "16:00"
+      timezone: CET
+    cooldown:
+      default-days: 3
+    labels: [dependencies, dependabot, docker]
+
+  # Images in docker-compose.yml (postgres)
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+      day: wednesday
+      time: "16:00"
+      timezone: CET
+    cooldown:
+      default-days: 3
+    labels: [dependencies, dependabot, docker]
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: wednesday
+      time: "16:00"
+      timezone: CET
+    cooldown:
+      default-days: 3
+    groups:
+      actions:
+        patterns: ["*"]
+    labels: [dependencies, dependabot, github-actions]
