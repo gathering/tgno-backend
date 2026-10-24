@@ -20,7 +20,7 @@ wagtail = ">=7.0,<7.1"
 psycopg = ">=3.1.8,<4.0"
 social-auth-app-django = "5.7.0"
 django-health-check="3.24.0"
-django-scheduler = "^0.10.1"
+django-scheduler = ">=0.10.1,<0.13.0"
 django-extensions = "^3.2.3"
 gunicorn = "23.0.0"
 
