@@ -16,11 +16,12 @@ package-mode = false
 # Remember to also update in Dockerfile and Github Workflow
 python = "^3.13"
 Django = ">=5.2,<5.3"
-wagtail = ">=7.0,<7.1"
+# 7.4 is an LTS with security support until 2027-11-02, see https://github.com/wagtail/wagtail/wiki/Release-schedule
+wagtail = ">=7.4,<7.5"
 psycopg = ">=3.1.8,<4.0"
 social-auth-app-django = "5.7.0"
 django-health-check="3.24.0"
-django-scheduler = "^0.10.1"
+django-scheduler = ">=0.10.1,<0.13.0"
 django-extensions = "^3.2.3"
 gunicorn = "23.0.0"
 

@@ -583,14 +583,14 @@ testing = ["django-modelcluster"]
 
 [[package]]
 name = "django-scheduler"
-version = "0.10.2"
+version = "0.12.0"
 description = "A calendaring app for Django."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "django_scheduler-0.10.2-py3-none-any.whl", hash = "sha256:30909d6a94ed01ccef350f831017d246227dd137412cdb55d20f9bf18d586f78"},
-    {file = "django_scheduler-0.10.2.tar.gz", hash = "sha256:923b92129fc4a9825b6d82153cfa470f2fc00d51a3bcf42e52f9a3393d88d882"},
+    {file = "django_scheduler-0.12.0-py3-none-any.whl", hash = "sha256:cd25b3dacaa3e911f61645920dd981130c97d61229a5aa30da29bcf952e7ab2c"},
+    {file = "django_scheduler-0.12.0.tar.gz", hash = "sha256:a9c280bd4fd7978ea85c4b265d17a69070213ba99b76192e80a143805259d2a1"},
 ]
 
 [package.dependencies]
@@ -635,26 +635,20 @@ Django = ">=4.1"
 
 [[package]]
 name = "django-tasks"
-version = "0.7.0"
-description = "An implementation and backport of background workers and tasks in Django"
+version = "0.12.0"
+description = "A backport of Django's built in Tasks framework"
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "django_tasks-0.7.0-py3-none-any.whl", hash = "sha256:8a8d64f2dc6e29ac2f45092d90e2dd82dc1dca100dfe3a4f2ce1209db99f3527"},
-    {file = "django_tasks-0.7.0.tar.gz", hash = "sha256:499f80d1a051566443cfa88a300d8b03435af7fc5708cad4d8da6d285614f739"},
+    {file = "django_tasks-0.12.0-py3-none-any.whl", hash = "sha256:ffcc1d7bdfad3bc5ef9c2d498596c6546484c9ec6b182fb9709c691eb66a8709"},
+    {file = "django_tasks-0.12.0.tar.gz", hash = "sha256:58be66c1e487da32a3ce7320bd1949d0d1dc381b9004819f92591eb37fb2c1b8"},
 ]
 
 [package.dependencies]
 Django = ">=4.2"
 django-stubs-ext = "*"
 typing_extensions = "*"
-
-[package.extras]
-dev = ["coverage", "dj-database-url", "django-stubs[compatible-mypy]", "django-tasks[rq]", "fakeredis", "ruff"]
-mysql = ["mysqlclient"]
-postgres = ["psycopg[binary]"]
-rq = ["django-rq", "rq_scheduler"]
 
 [[package]]
 name = "django-treebeard"
@@ -827,6 +821,27 @@ Django = ">=3.2"
 [package.extras]
 dev = ["black (==24.1.1)", "blacken-docs (==1.16.0)", "coverage (==7.3.4)", "django-stubs[compatible-mypy] (==4.2.7)", "flake8 (==7.0.0)", "flake8-bugbear", "flake8-comprehensions", "isort (==5.13.2)", "mypy (==1.7.1)", "pre-commit (==3.4.0)", "tox (==4.12.1)", "tox-gh-actions (==3.2.0)", "types-requests (==2.31.0.20240125)", "virtualenv-pyenv (==0.4.0)"]
 testing = ["coverage (==7.3.4)", "dj-database-url (==2.1.0)"]
+
+[[package]]
+name = "modelsearch"
+version = "1.3.2"
+description = "A library for indexing Django models with Elasicsearch, OpenSearch or database and searching them with the Django ORM."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "modelsearch-1.3.2-py3-none-any.whl", hash = "sha256:8738ad7dc6fd2f70f622e717c52fbdcc60285e6b74acc41a7bf3fe911718532b"},
+    {file = "modelsearch-1.3.2.tar.gz", hash = "sha256:52ede0f65e91efdb9d715f603e0bb3db96a95c80eba695abcd4628c03759999e"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
+django-tasks = ">=0.7,<0.13"
+
+[package.extras]
+dev = ["pre-commit (==3.4.0)", "ruff (==0.13.0)"]
+docs = ["myst-parser (>=4.0.1,<5)", "sphinx (>=8.2.3,<9)", "sphinx-rtd-theme (>=3.0.2,<4.0)"]
+test = ["coverage (>=7.10.6,<8)", "dj-database-url (>=2.3.0,<3)", "django-modelcluster (>=6.4,<7)", "django-taggit (>=6.1.0,<7)", "django-tasks (>=0.6.1,<1)", "django-treebeard (>=5,<6)", "mysqlclient (>=2.2.0,<3)", "psycopg (>=3.2.6,<4)"]
 
 [[package]]
 name = "nodeenv"
@@ -1258,14 +1273,14 @@ files = [
 
 [[package]]
 name = "pyjwt"
-version = "2.12.1"
+version = "2.15.0"
 description = "JSON Web Token implementation in Python"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pyjwt-2.12.1-py3-none-any.whl", hash = "sha256:28ca37c070cad8ba8cd9790cd940535d40274d22f80ab87f3ac6a713e6e8454c"},
-    {file = "pyjwt-2.12.1.tar.gz", hash = "sha256:c74a7a2adf861c04d002db713dd85f84beb242228e671280bf709d765b03672b"},
+    {file = "pyjwt-2.15.0-py3-none-any.whl", hash = "sha256:7a3742debf6b879e912dbb9819ceec1594be812452b78c5f2e2dfc56564954f8"},
+    {file = "pyjwt-2.15.0.tar.gz", hash = "sha256:b11c5f9791d7bf51c2b39a81ed669f6b2dbbd669df2942f6c60167e9e3d1abe4"},
 ]
 
 [package.dependencies]
@@ -1273,9 +1288,6 @@ cryptography = {version = ">=3.4.0", optional = true, markers = "extra == \"cryp
 
 [package.extras]
 crypto = ["cryptography (>=3.4.0)"]
-dev = ["coverage[toml] (==7.10.7)", "cryptography (>=3.4.0)", "pre-commit", "pytest (>=8.4.2,<9.0.0)", "sphinx", "sphinx-rtd-theme", "zope.interface"]
-docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
-tests = ["coverage[toml] (==7.10.7)", "pytest (>=8.4.2,<9.0.0)"]
 
 [[package]]
 name = "python-dateutil"
@@ -1496,20 +1508,20 @@ dev = ["coverage (>=3.6)", "django-stubs (==5.2.8)", "django-stubs-ext (==5.2.8)
 
 [[package]]
 name = "social-auth-core"
-version = "4.8.7"
+version = "4.8.5"
 description = "Python social authentication made simple."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "social_auth_core-4.8.7-py3-none-any.whl", hash = "sha256:c06d528bde0cf3d21e9e17af31c824c953985732123b005f54b20e67c9d0d8d8"},
-    {file = "social_auth_core-4.8.7.tar.gz", hash = "sha256:30f88822d5c72e07a3dd080daff81464e262b83794c75cf636fc81241d2a253c"},
+    {file = "social_auth_core-4.8.5-py3-none-any.whl", hash = "sha256:2591c2ce71127ad410e7ca9581bd88658031fdf7b209e05be5920d0bcc1c005a"},
+    {file = "social_auth_core-4.8.5.tar.gz", hash = "sha256:fd10d44bff681a128d127f665f203c496658d5bbfc993ad1b5bbaed589eab573"},
 ]
 
 [package.dependencies]
 defusedxml = ">=0.7.1"
 oauthlib = ">=3.3.1"
-PyJWT = {version = "2.12.1", extras = ["crypto"]}
+PyJWT = {version = ">=2.11.0", extras = ["crypto"]}
 python3-openid = ">=3.2.0"
 requests = ">=2.32.5"
 requests-oauthlib = ">=2.0.0"
@@ -1518,8 +1530,8 @@ requests-oauthlib = ">=2.0.0"
 all = ["social-auth-core[azuread]", "social-auth-core[google-onetap]", "social-auth-core[saml]", "social-auth-core[shopify]"]
 allpy3 = ["social-auth-core[all]"]
 azuread = ["cryptography (>=42.0.8)"]
-dev = ["coverage (==7.13.5)", "flake8 (==7.3.0)", "google-auth-stubs (==0.3.0)", "mypy (==1.20.2)", "pyright (==1.1.409)", "pytest (==9.0.3)", "pytest-cov (==7.1.0)", "pytest-github-actions-annotate-failures (==0.4.0)", "pytest-profiling (==1.8.1)", "pytest-xdist (==3.8.0)", "responses (==0.26.0)", "ty (==0.0.32)", "types-defusedxml (==0.7.0.20260408)", "types-oauthlib (==3.3.0.20260408)", "types-requests (==2.33.0.20260408)", "types-requests-oauthlib (==2.0.0.20260408)"]
-google-onetap = ["google-auth (>=2.40.0,<2.50)"]
+dev = ["coverage (==7.13.4)", "flake8 (==7.3.0)", "google-auth-stubs (==0.3.0)", "mypy (==1.19.1)", "pyright (==1.1.408)", "pytest (==9.0.2)", "pytest-cov (==7.0.0)", "pytest-github-actions-annotate-failures (==0.3.0)", "pytest-profiling (==1.8.1)", "pytest-xdist (==3.8.0)", "responses (==0.25.8)", "ty (==0.0.15)", "types-defusedxml (==0.7.0.20250822)", "types-oauthlib (==3.3.0.20250822)", "types-requests (==2.32.4.20260107)", "types-requests-oauthlib (==2.0.0.20250809)"]
+google-onetap = ["google-auth (>=2.40.0,<2.49)"]
 saml = ["python3-saml (>=1.16.0)"]
 shopify = ["ShopifyAPI"]
 
@@ -1629,29 +1641,30 @@ python-discovery = ">=1.6.1"
 
 [[package]]
 name = "wagtail"
-version = "7.0.10"
+version = "7.4.4"
 description = "A Django content management system."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "wagtail-7.0.10-py3-none-any.whl", hash = "sha256:698a234f510b366d333af5354600197dc135729d76a84ccea698fc65a05825d3"},
-    {file = "wagtail-7.0.10.tar.gz", hash = "sha256:52543a8ef2912fa389a9c00246c93d112b70b922677be3144b730456a981d0a7"},
+    {file = "wagtail-7.4.4-py3-none-any.whl", hash = "sha256:1f328154bd08afa39fcb5f1042a0c9181dcd0a6c80e27e72a0257de4c16e3541"},
+    {file = "wagtail-7.4.4.tar.gz", hash = "sha256:949bf7129d69e5b94d655651724b4fa90264fa21ae20426f89914814e030a2f7"},
 ]
 
 [package.dependencies]
 anyascii = ">=0.1.5"
-beautifulsoup4 = ">=4.8,<5"
-Django = ">=4.2"
+beautifulsoup4 = ">=4.13.3,<5"
+Django = ">=5.2"
 django-filter = ">=23.3"
-django-modelcluster = ">=6.2.1,<7.0"
+django-modelcluster = ">=6.5,<7.0"
 django-permissionedforms = ">=0.1,<1.0"
 django-taggit = ">=5.0,<7"
-django-tasks = ">=0.7,<0.8"
-django-treebeard = ">=4.5.1,<5.0"
+django-tasks = ">=0.9,<0.13"
+django-treebeard = ">=4.8,<6.0"
 djangorestframework = ">=3.15.1,<4.0"
 draftjs_exporter = ">=2.1.5,<6.0"
 laces = ">=0.1,<0.2"
+modelsearch = ">=1.3,<1.4"
 openpyxl = ">=3.0.10,<4.0"
 Pillow = ">=9.1.0"
 requests = ">=2.11.1,<3.0"
@@ -1659,8 +1672,8 @@ telepath = ">=0.3.1,<1"
 Willow = {version = ">=1.11.0,<2", extras = ["heif"]}
 
 [package.extras]
-docs = ["Sphinx (>=7.3)", "myst_parser (==2.0.0)", "pyenchant (>=3.1.1,<4)", "sphinx-autobuild (>=0.6.0)", "sphinx-wagtail-theme (==6.5.0)", "sphinxcontrib-spelling (>=7,<8)"]
-testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "boto3 (>=1.28,<2)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7)", "djhtml (==3.0.6)", "doc8 (==1.1.2)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "ruff (==0.9.6)", "semgrep (==1.40.0)", "tblib (>=2.0,<3.0)"]
+docs = ["Sphinx (>=7.3)", "myst_parser (>=4.0.0,<6)", "pyenchant (>=3.3.0,<4)", "sphinx-autobuild (>=0.6.0)", "sphinx-wagtail-theme (>=6.5.0,<7)", "sphinx_llm (>=0.2.1)", "sphinxcontrib-spelling (>=8,<9)"]
+testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "boto3 (>=1.28,<2)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7)", "djhtml (==3.0.10)", "doc8 (==2.0.0)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "responses (>=0.25,<1)", "ruff (==0.15.2)", "semgrep (==1.152.0)", "tblib (>=3.0,<4.0)"]
 
 [[package]]
 name = "willow"
@@ -1689,4 +1702,4 @@ wand = ["Wand (>=0.6,<1.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "ddfdde4530250e7a916a6d7c7e74a5bcb42a33e53d1a22790ffbfafe6b4ba8ee"
+content-hash = "777eceb05957de3963bccc01654421209c19d3409a9851a587b81d8a523b05b3"
