@@ -54,7 +54,7 @@ ENTRYPOINT ["/app/entrypoint.prod.sh"]
 CMD ["gunicorn", "tgno.wsgi:application"]
 
 # Create final production image for hosting static files (when desired)
-FROM nginx:1.29-alpine AS nginx-production-image
+FROM nginx:1.31-alpine AS nginx-production-image
 RUN echo "Building nginx-production image for static file hosting"
 COPY --from=production-image /app/static /usr/share/nginx/html/static
 
